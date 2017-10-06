@@ -1,0 +1,2 @@
+# JavaLibResources
+Resource management class
