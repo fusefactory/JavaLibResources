@@ -68,6 +68,7 @@ public class ImageSource extends BaseResourceSource<String, PImage> {
     String filePath = urlString;
     Integer resizeWidth = null;
     Integer resizeHeight = null;
+    int[] fillSize = null;
 
     // check for presence of query in urlString (/path/to/file?part=after&question=mark&isthe=query)
     if(urlString.contains("?"))
@@ -85,6 +86,13 @@ public class ImageSource extends BaseResourceSource<String, PImage> {
           if(resize.split("x").length == 2){
             resizeHeight = Integer.parseInt(resize.split("x")[1]);
           }
+        }
+
+        if(pair.split("=")[0].equals("fillSize")){
+          String[] val = pair.split("=")[1].split("x");
+          fillSize = new int[2];
+          fillSize[0] = Integer.parseInt(val[0]);
+          fillSize[1] = Integer.parseInt(val.length > 1 ? val[1] : val[0]);
         }
       }
     }
@@ -111,8 +119,16 @@ public class ImageSource extends BaseResourceSource<String, PImage> {
     if(newImg == null)
       return null;
 
+    if(fillSize != null){
+      float x = (float)fillSize[0] / (float)newImg.width;
+      float y = (float)fillSize[1] / (float)newImg.height;
+      float factor = Math.max(x,y);
+      resizeWidth = (int)Math.ceil(newImg.width * factor);
+      resizeHeight = (int)Math.ceil(newImg.height * factor);
+    }
+
     if(resizeWidth != null && resizeHeight != null){
-      logger.fine("resizing image to: "+Integer.toString(resizeWidth)+"x"+Integer.toString(resizeHeight));
+      logger.info("resizing image to: "+Integer.toString(resizeWidth)+"x"+Integer.toString(resizeHeight));
       newImg.resize(resizeWidth, resizeHeight);
     }
 
@@ -152,4 +168,21 @@ public class ImageSource extends BaseResourceSource<String, PImage> {
     img.copy(movie, 0, 0, movie.width, movie.height, 0, 0, movie.width, movie.height);
   	return img;
   }
+
+  // public void destroy(PImage img) {
+	//   if(this.papplet == null) {
+	// 	  logger.warning("papplet is null, can't destroy image");
+	// 	  return;
+	//   }
+  //
+  //   // only processing2?
+  //   Object cache = papplet.getCache(img);
+  //   if(cache instanceof Texture) {
+  //     Texture tex = (Texture)cache;
+  //     tex.unbind();
+  //     tex.disposeSourceBuffer();
+  //   }
+  //
+  //   papplet.removeCache(img);
+  // }
 }
