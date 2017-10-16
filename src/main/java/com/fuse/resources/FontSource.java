@@ -49,6 +49,11 @@ public class FontSource extends BaseResourceSource<String, PFont> {
     });
   }
 
+  public FontSource(PApplet papplet){
+	  this();
+	  this.setPapplet(papplet);
+  }
+
   public void setPapplet(PApplet papplet){
     this.papplet = papplet;
   }
