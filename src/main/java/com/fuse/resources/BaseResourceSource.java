@@ -114,4 +114,20 @@ public class BaseResourceSource<K,V> {
 
     return cachedRef.get();
   }
+
+  protected boolean clearCache(K key){
+    return this.cache == null ? null : this.cache.remove(key) != null;
+  }
+  
+  protected boolean removeFromCache(V value) {
+    K key = null;
+    for(K curKey : this.cache.keySet()) {
+      if(this.getCache(curKey) == value) {
+        key = curKey;
+        break;
+      }
+    }
+
+    return key != null && this.clearCache(key);
+  }
 }

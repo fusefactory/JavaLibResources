@@ -169,20 +169,19 @@ public class ImageSource extends BaseResourceSource<String, PImage> {
   	return img;
   }
 
-  // public void destroy(PImage img) {
-	//   if(this.papplet == null) {
-	// 	  logger.warning("papplet is null, can't destroy image");
-	// 	  return;
-	//   }
-  //
-  //   // only processing2?
-  //   Object cache = papplet.getCache(img);
-  //   if(cache instanceof Texture) {
-  //     Texture tex = (Texture)cache;
-  //     tex.unbind();
-  //     tex.disposeSourceBuffer();
-  //   }
-  //
-  //   papplet.removeCache(img);
-  // }
+  public void destroy(PImage img) {
+    if(this.papplet != null) {
+      // // only processing2?
+      // Object cache = papplet.getCache(img);
+      // if(cache instanceof Texture) {
+      //   Texture tex = (Texture)cache;
+      //   tex.unbind();
+      //   tex.disposeSourceBuffer();
+      // }
+      //
+      // papplet.removeCache(img);
+    }
+
+    this.removeFromCache(img);
+  }
 }
