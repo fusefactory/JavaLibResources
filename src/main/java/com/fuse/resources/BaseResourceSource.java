@@ -31,6 +31,7 @@ public class BaseResourceSource<K,V> {
     V cachedItem = getCache(key);
 
     if(cachedItem != null){
+      this.logger.info("cache-hit: "+key);
       AsyncOperation<V> op = new AsyncOperation<>();
       op.add(cachedItem);
       op.finish(true); // success!
@@ -104,10 +105,10 @@ public class BaseResourceSource<K,V> {
     if(cachedRef == null)
       return null;
 
-    logger.finer("RESOURCE CACHE-HIT: "+key.toString());
+    // logger.finer("RESOURCE CACHE-HIT: "+key.toString());
 
     if(cachedRef.get() == null){
-      logger.fine("RESOURCE CACHE-EXPIRE:"+key.toString());
+      logger.info("cache-expired: "+key.toString());
       cache.remove(key);
       return null;
     }
@@ -116,9 +117,10 @@ public class BaseResourceSource<K,V> {
   }
 
   protected boolean clearCache(K key){
+    this.logger.info("clear-cache: "+key);
     return this.cache == null ? null : this.cache.remove(key) != null;
   }
-  
+
   protected boolean removeFromCache(V value) {
     K key = null;
     for(K curKey : this.cache.keySet()) {
