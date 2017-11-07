@@ -123,11 +123,14 @@ public class BaseResourceSource<K,V> {
 
   protected boolean removeFromCache(V value) {
     K key = null;
-    for(K curKey : this.cache.keySet()) {
-      if(this.getCache(curKey) == value) {
-        key = curKey;
-        break;
-      }
+    Object[] keyArray = this.cache.keySet().toArray();
+
+    for(int i=keyArray.length-1; i>=0; i--) {
+    	K curKey = (K)keyArray[i];
+        if(this.getCache(curKey) == value) {
+        	key = curKey;
+        	break;
+        }
     }
 
     return key != null && this.clearCache(key);
