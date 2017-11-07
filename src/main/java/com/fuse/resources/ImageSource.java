@@ -210,17 +210,17 @@ public class ImageSource extends BaseResourceSource<String, PImage> {
     // System.out.println("clear-item");
 
     if(this.papplet != null) {
-      Object cache = this.papplet.getGraphics().getCache(img);
-      if(cache  instanceof Texture) {
+
+      // only processing2?
+      Object cache = papplet.getCache(img);
+
+      if(cache instanceof Texture) {
         Texture tex = (Texture)cache;
         tex.unbind();
         tex.disposeSourceBuffer();
       }
 
-      // if(cache != null)
-      //   System.out.println("removedCache on papplet for: "+cache.toString());
-
-      this.papplet.getGraphics().removeCache(img);
+      papplet.removeCache(img);
     }
 
     // explicitlty request garbage collecting?
