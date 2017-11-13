@@ -30,10 +30,9 @@ public class ImageSource extends BaseResourceSource<String, PImage> {
   //   });
 
   protected PApplet papplet;
-  private AsyncFacade<Movie, PImage> movieFacade;
 
   public ImageSource(){
-	  this(null);
+    this(null);
   }
 
   public ImageSource(PApplet papplet){
@@ -45,11 +44,6 @@ public class ImageSource extends BaseResourceSource<String, PImage> {
     // this loader is used both for sync and async requests
     setLoader((String urlString) -> {
     	return this._createImage(urlString);
-    });
-
-    this.movieFacade = new AsyncFacade<>();
-    this.movieFacade.setSyncLoader((Movie movie) -> {
-      return this._createImage(movie);
     });
   }
 
