@@ -122,6 +122,10 @@ public class BaseResourceSource<K,V> {
   }
 
   protected boolean removeFromCache(V value) {
+    if(this.cache == null)
+      return false; // no existing cache; nothing to remove
+
+
     K key = null;
     Object[] keyArray = this.cache.keySet().toArray();
 
