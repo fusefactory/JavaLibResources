@@ -29,7 +29,7 @@ public class ImageSource extends BaseResourceSource<String, PImage> {
   //     // DO SOMETHING WITH LOADED IMAGE
   //   });
 
-  private PApplet papplet;
+  protected PApplet papplet;
   private AsyncFacade<Movie, PImage> movieFacade;
 
   public ImageSource(){
