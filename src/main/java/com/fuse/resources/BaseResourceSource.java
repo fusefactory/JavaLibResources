@@ -9,6 +9,8 @@ import java.util.HashMap;
 import com.fuse.cms.AsyncFacade;
 import com.fuse.cms.AsyncOperation;
 
+import processing.core.PImage;
+
 public class BaseResourceSource<K,V> {
   protected Logger logger;
   protected AsyncFacade<K,V> asyncFacade;
@@ -87,17 +89,35 @@ public class BaseResourceSource<K,V> {
     bCacheEnabled = enabled;
   }
 
+  /**
+   * Tries to remove item from cache but falls back to general item memory cleanup also if not found in cache.
+   * @param item to remove and cleanup
+   */
+  public void remove(V item) {
+    // when clearing cache, clearItem is automatically called.
+    // Otherwise we'll call it  manually
+    if(!this.removeFromCache(item)) {
+      this.clearItem(item);
+    }
+  }
+
   // caching methods // // // // //
 
   protected void setCache(K key, V item){
+    // remove any existing cache for this key
+    this.clearCache(key);
+
+    // our cache container is lazy-initialized to save memory when caching is not enabled
     if(cache == null)
       cache = new HashMap<K, WeakReference<V>>();
 
+    // write to cache container
     cache.put(key, new WeakReference<V>(item));
   }
 
+  // get item from cache by key/identifier
   protected V getCache(K key){
-    if(cache== null)
+    if(cache == null)
       return null;
 
     WeakReference<V> cachedRef = cache.get(key);
@@ -116,11 +136,22 @@ public class BaseResourceSource<K,V> {
     return cachedRef.get();
   }
 
+  // remove an item from cache by key/identifier
   protected boolean clearCache(K key){
-    this.logger.info("clear-cache: "+key);
-    return this.cache == null ? null : this.cache.remove(key) != null;
+    WeakReference<V> removedRef = this.cache == null ? null : this.cache.remove(key);
+
+    if(removedRef == null) 
+      return false;
+
+    V item = removedRef.get();
+    if(item != null)
+      this.clearItem(item);
+
+    this.logger.info("cleared-cache-key: "+key);
+    return true;
   }
 
+  // remove an item from cache by value (find corresponding key/identifier and calls this.clearCache)
   protected boolean removeFromCache(V value) {
     if(this.cache == null)
       return false; // no existing cache; nothing to remove
@@ -138,5 +169,10 @@ public class BaseResourceSource<K,V> {
     }
 
     return key != null && this.clearCache(key);
+  }
+
+  // perform any additional memory cleanup for the removed item
+  protected void clearItem(V item) {
+    // nothing to do by default, inheriting classes can overwrite this method
   }
 }

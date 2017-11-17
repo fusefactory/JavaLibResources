@@ -169,7 +169,13 @@ public class ImageSource extends BaseResourceSource<String, PImage> {
   	return img;
   }
 
+  @Deprecated // use remove
   public void destroy(PImage img) {
+    super.remove(img);
+  }
+
+  @Override
+  protected void clearItem(PImage img) {
     if(this.papplet != null) {
       // // only processing2?
       // Object cache = papplet.getCache(img);
@@ -181,7 +187,5 @@ public class ImageSource extends BaseResourceSource<String, PImage> {
       //
       // papplet.removeCache(img);
     }
-
-    this.removeFromCache(img);
   }
 }
