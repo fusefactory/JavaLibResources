@@ -30,54 +30,28 @@ public class BaseResourceSource<K,V> {
   }
 
   public AsyncOperation<V> getAsync(K key){
-    V cachedItem = getCache(key);
-
-    if(cachedItem != null){
-      this.logger.info("cache-hit: "+key);
-      AsyncOperation<V> op = new AsyncOperation<>();
-      op.add(cachedItem);
-      op.finish(true); // success!
-      return op;
-    }
-
-    AsyncOperation<V> op = asyncFacade.getAsync(key);
-
-    // cache if enabled
-    op.withSingleResult((V item) -> {
-      if(this.bCacheEnabled)
-        this.setCache(key,  item);
-    });
-
-    return op;
+    return asyncFacade.getAsync(key);
   }
 
   public V getSync(K key){
-    V item = getCache(key);
-
-    if(item != null){
-      return item;
-    }
-
-    item = asyncFacade.getSync(key);
-
-    if(item != null && this.bCacheEnabled)
-      this.setCache(key,  item);
-
-    return item;
+    return asyncFacade.getSync(key);
   }
 
   // configuration methods // // // // //
 
   public void setLoader(Function<K, V> func){
-    // The async loader is used when the getAsync method is called,
-    // the sync loader is used when the getSync method is called.
+    // AsyncFacade automatically creates a threaded async loader from this sync loader
     asyncFacade.setSyncLoader((K key) -> {
+      // try cache first...
       V cachedItem = getCache(key);
-      if(cachedItem != null)
+      if(cachedItem != null){
+        // System.out.println("cache-hit: "+key);
         return cachedItem;
+      }
 
       V item = func.apply(key);
 
+      // cache if enabled...
       if(item != null && this.bCacheEnabled)
         this.setCache(key, item);
 
@@ -88,6 +62,8 @@ public class BaseResourceSource<K,V> {
   public void setCacheEnabled(boolean enabled){
     bCacheEnabled = enabled;
   }
+
+  public boolean isCacheEnabled(){ return this.bCacheEnabled; }
 
   /**
    * Tries to remove item from cache but falls back to general item memory cleanup also if not found in cache.
@@ -125,8 +101,6 @@ public class BaseResourceSource<K,V> {
     if(cachedRef == null)
       return null;
 
-    // logger.finer("RESOURCE CACHE-HIT: "+key.toString());
-
     if(cachedRef.get() == null){
       logger.info("cache-expired: "+key.toString());
       cache.remove(key);
@@ -140,14 +114,14 @@ public class BaseResourceSource<K,V> {
   protected boolean clearCache(K key){
     WeakReference<V> removedRef = this.cache == null ? null : this.cache.remove(key);
 
-    if(removedRef == null) 
+    if(removedRef == null)
       return false;
 
     V item = removedRef.get();
     if(item != null)
       this.clearItem(item);
 
-    this.logger.info("cleared-cache-key: "+key);
+    this.logger.info("cache-cleared: "+key);
     return true;
   }
 

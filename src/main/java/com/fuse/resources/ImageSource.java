@@ -37,9 +37,10 @@ public class ImageSource extends BaseResourceSource<String, PImage> {
   public ImageSource(PApplet papplet){
   	this.setPapplet(papplet);
     super.setCacheEnabled(true);
-    // this sync loader will automatically be converted into a threaded async loader by AsyncFacade class.
-    asyncFacade.setThreadPriority(Thread.MIN_PRIORITY);
+    super.asyncFacade.setThreadPriority(Thread.MIN_PRIORITY);
 
+    // register our load method to be used when images are requested
+    // this loader is used both for sync and async requests
     setLoader((String urlString) -> {
     	return this._createImage(urlString);
     });
@@ -57,8 +58,9 @@ public class ImageSource extends BaseResourceSource<String, PImage> {
   private PImage _createImage(String urlString) {
     // only normal filepaths supported for now;
     // todo; support a filepath "query" formats, like:
-    // "/path/to/file.png?resize=100x100&filter=grayscale"
-    // "/path/to/file.jpg#searchResultThumbnail"
+    // "/path/to/file.png?resize=100x100 // resizes image to exactly specified dimensions
+    // "/path/to/file.png?fillSize=1000x800 // downscales image to fill specified dimensions (respecting aspect ratio)
+    // "/path/to/file.png?cache=true // forces caching of this url, even when caching is disabled
 
     if(papplet == null){
       logger.warning("no papplet, can't load image: " + urlString);
@@ -68,6 +70,7 @@ public class ImageSource extends BaseResourceSource<String, PImage> {
     String filePath = urlString;
     Integer resizeWidth = null;
     Integer resizeHeight = null;
+    Boolean doCache = null;
     int[] fillSize = null;
 
     // check for presence of query in urlString (/path/to/file?part=after&question=mark&isthe=query)
@@ -77,6 +80,7 @@ public class ImageSource extends BaseResourceSource<String, PImage> {
       filePath = parts[0];
       String query = parts.length > 1 ? parts[1] : "";
 
+      // loop over each param/value pair in the query part of the urlString
       for(String pair : query.split("&")){
         if(pair.split("=")[0].equals("resize")){
           String resize = pair.split("=")[1];
@@ -93,6 +97,10 @@ public class ImageSource extends BaseResourceSource<String, PImage> {
           fillSize = new int[2];
           fillSize[0] = Integer.parseInt(val[0]);
           fillSize[1] = Integer.parseInt(val.length > 1 ? val[1] : val[0]);
+        }
+
+        if(pair.split("=")[0].equals("cache")){
+          doCache = Boolean.parseBoolean(pair.split("=")[1]);
         }
       }
     }
@@ -132,6 +140,12 @@ public class ImageSource extends BaseResourceSource<String, PImage> {
       newImg.resize(resizeWidth, resizeHeight);
     }
 
+    // if cache is enabled, caching will be taken care of by theparent class (BaseResourceSource)
+    // otherwise, if caching is explicitly request for this image, we'll set cache here
+    if(doCache != null && doCache == true && !this.isCacheEnabled()) {
+      System.out.println("explicit-cache: "+urlString);
+      this.setCache(urlString,  newImg);
+    }
 
     // return operation result
     return newImg;
