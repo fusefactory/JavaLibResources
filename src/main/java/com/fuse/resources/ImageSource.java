@@ -1,10 +1,12 @@
 package com.fuse.resources;
 
 import java.io.File;
+import processing.opengl.Texture;
 import processing.core.PApplet;
 import processing.core.PImage;
 import processing.video.Movie;
 import com.fuse.cms.AsyncFacade;
+
 
 /**
   * The applications main images/textures interface which takes care
@@ -190,16 +192,23 @@ public class ImageSource extends BaseResourceSource<String, PImage> {
 
   @Override
   protected void clearItem(PImage img) {
+    // System.out.println("clear-item");
+
     if(this.papplet != null) {
-      // // only processing2?
-      // Object cache = papplet.getCache(img);
-      // if(cache instanceof Texture) {
-      //   Texture tex = (Texture)cache;
-      //   tex.unbind();
-      //   tex.disposeSourceBuffer();
-      // }
-      //
-      // papplet.removeCache(img);
+      Object cache = this.papplet.getGraphics().getCache(img);
+      if(cache  instanceof Texture) {
+        Texture tex = (Texture)cache;
+        tex.unbind();
+        tex.disposeSourceBuffer();
+      }
+
+      // if(cache != null)
+      //   System.out.println("removedCache on papplet for: "+cache.toString());
+
+      this.papplet.getGraphics().removeCache(img);
     }
+
+    // explicitlty request garbage collecting?
+    // System.gc();
   }
 }
