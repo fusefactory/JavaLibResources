@@ -63,6 +63,7 @@ public class ImageSource extends BaseResourceSource<String, PImage> {
     // "/path/to/file.png?resize=100x100 // resizes image to exactly specified dimensions
     // "/path/to/file.png?fillSize=1000x800 // downscales image to fill specified dimensions (respecting aspect ratio)
     // "/path/to/file.png?cache=true // forces caching of this url, even when caching is disabled
+    // "/path/to/file.png?filter=GRAY // converts image to grayscale
 
     if(papplet == null){
       logger.warning("no papplet, can't load image: " + urlString);
@@ -73,6 +74,7 @@ public class ImageSource extends BaseResourceSource<String, PImage> {
     Integer resizeWidth = null;
     Integer resizeHeight = null;
     Boolean doCache = null;
+    Integer filter = null;
     int[] fillSize = null;
 
     // check for presence of query in urlString (/path/to/file?part=after&question=mark&isthe=query)
@@ -103,6 +105,21 @@ public class ImageSource extends BaseResourceSource<String, PImage> {
 
         if(pair.split("=")[0].equals("cache")){
           doCache = Boolean.parseBoolean(pair.split("=")[1]);
+        }
+
+        if(pair.split("=")[0].equals("filter")){
+          String paramVal = pair.split("=")[1].toUpperCase();
+          switch(paramVal){
+            case "GRAY": filter = PApplet.GRAY; break;
+            case "TRESHOLD": filter = PApplet.THRESHOLD; break;
+            case "OPAQUE": filter = PApplet.OPAQUE; break;
+            case "INVERT": filter = PApplet.INVERT; break;
+            case "POSTERIZE": filter = PApplet.POSTERIZE; break;
+            case "BLUR": filter = PApplet.BLUR; break;
+            case "ERODE": filter = PApplet.ERODE; break;
+            case "DILATE": filter = PApplet.DILATE; break;
+            default: this.logger.warning("Unknown image filter: "+paramVal);
+          }
         }
       }
     }
@@ -140,6 +157,10 @@ public class ImageSource extends BaseResourceSource<String, PImage> {
     if(resizeWidth != null && resizeHeight != null){
       logger.info("resizing image to: "+Integer.toString(resizeWidth)+"x"+Integer.toString(resizeHeight));
       newImg.resize(resizeWidth, resizeHeight);
+    }
+
+    if(filter != null) {
+      newImg.filter(filter);
     }
 
     // if cache is enabled, caching will be taken care of by theparent class (BaseResourceSource)
