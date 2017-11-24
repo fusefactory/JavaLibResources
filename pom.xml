@@ -4,7 +4,7 @@
 
     <groupId>com.github.fusefactory</groupId>
     <artifactId>JavaLibResources</artifactId>
-    <version>0.0.0</version>
+    <version>0.0.1</version>
     <packaging>jar</packaging>
 
     <name>Fuse Resources package</name>
@@ -22,14 +22,14 @@
         <dependency>
             <groupId>com.github.fusefactory</groupId>
             <artifactId>JavaLibEvent</artifactId>
-            <version>1.1.7</version>
+            <version>1.1.9</version>
         </dependency>
 
         <!-- https://github.com/fusefactory/JavaLibCms -->
         <dependency>
             <groupId>com.github.fusefactory</groupId>
             <artifactId>JavaLibCms</artifactId>
-            <version>1.1.4</version>
+            <version>1.1.6</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.processing/core -->
