@@ -3,10 +3,9 @@
 [![Build Status](https://travis-ci.org/fusefactory/JavaLibResources.svg?branch=master)](https://travis-ci.org/fusefactory/JavaLibResources)
 
 Resource management classes.
-* ImageSource
-* FontSource
-* BaseResourceSource
 
+## JavaDocs
+https://fusefactory.github.io/JavaLibResources/site/apidocs/index.html
 
 ## ImageSource
 ImageSource is a BaseResourceSource which takes a string and provides PImage (the processing framework's image class) instances. It requires a PApplet instance in its constructor or to be later set using the setPapplet method.
