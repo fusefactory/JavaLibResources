@@ -3,8 +3,8 @@ package com.fuse.resources;
 import java.util.function.Function;
 import java.util.logging.Logger;
 import java.lang.ref.WeakReference;
-import java.util.Map;
-import java.util.HashMap;
+import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 import com.fuse.cms.AsyncFacade;
 import com.fuse.cms.AsyncOperation;
@@ -15,7 +15,7 @@ public class BaseResourceSource<K,V> {
   protected Logger logger;
   protected AsyncFacade<K,V> asyncFacade;
 
-  private Map<K, WeakReference<V>> cache = null;
+  private ConcurrentMap<K, WeakReference<V>> cache = null;
   private boolean bCacheEnabled = false;
 
   public BaseResourceSource(){
@@ -85,7 +85,7 @@ public class BaseResourceSource<K,V> {
 
     // our cache container is lazy-initialized to save memory when caching is not enabled
     if(cache == null)
-      cache = new HashMap<K, WeakReference<V>>();
+      cache = new ConcurrentHashMap<K, WeakReference<V>>();
 
     // write to cache container
     cache.put(key, new WeakReference<V>(item));
