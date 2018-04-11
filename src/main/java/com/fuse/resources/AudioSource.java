@@ -70,7 +70,7 @@ public class AudioSource extends BaseResourceSource<String, AudioPlayer> {
       }
     }
 
-    // this.setMinim(minim);
+    this.setMinim(minim);
   }
 
   /**
