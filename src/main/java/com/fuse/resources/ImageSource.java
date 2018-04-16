@@ -1,11 +1,11 @@
 package com.fuse.resources;
 
 import java.io.File;
-import processing.opengl.Texture;
+
 import processing.core.PApplet;
 import processing.core.PImage;
-import processing.video.Movie;
-import com.fuse.cms.AsyncFacade;
+import processing.opengl.Texture;
+// import processing.video.Movie;
 
 
 /**
@@ -168,37 +168,37 @@ public class ImageSource extends BaseResourceSource<String, PImage> {
     return newImg;
   }
 
-  private PImage _createImage(Movie movie){
-    if(movie == null){
-      logger.warning("movie is null");
-      return null;
-    }
-
-    if(papplet == null){
-      logger.warning("no papplet, can't load video preview");
-      return null;
-    }
-
-    //if(movie.playbin != null && !movie.playbin.isPlaying()){
-    movie.play();
-    movie.volume(0f);
-
-    movie.pause();
-    movie.jump(movie.duration()*0.5f);
-    movie.play();
-    movie.pause();
-
-    try {
-      Thread.sleep(50);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
-    //  }
-
-    PImage img = papplet.createImage(movie.width, movie.height, PApplet.ARGB);
-    img.copy(movie, 0, 0, movie.width, movie.height, 0, 0, movie.width, movie.height);
-  	return img;
-  }
+  // private PImage _createImage(Movie movie){
+  //   if(movie == null){
+  //     logger.warning("movie is null");
+  //     return null;
+  //   }
+  //
+  //   if(papplet == null){
+  //     logger.warning("no papplet, can't load video preview");
+  //     return null;
+  //   }
+  //
+  //   //if(movie.playbin != null && !movie.playbin.isPlaying()){
+  //   movie.play();
+  //   movie.volume(0f);
+  //
+  //   movie.pause();
+  //   movie.jump(movie.duration()*0.5f);
+  //   movie.play();
+  //   movie.pause();
+  //
+  //   try {
+  //     Thread.sleep(50);
+  //   } catch (InterruptedException e) {
+  //     e.printStackTrace();
+  //   }
+  //   //  }
+  //
+  //   PImage img = papplet.createImage(movie.width, movie.height, PApplet.ARGB);
+  //   img.copy(movie, 0, 0, movie.width, movie.height, 0, 0, movie.width, movie.height);
+  // 	return img;
+  // }
 
   @Deprecated // use remove
   public void destroy(PImage img) {

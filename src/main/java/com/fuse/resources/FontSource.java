@@ -1,7 +1,7 @@
 package com.fuse.resources;
 
-import java.util.regex.Pattern;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import processing.core.PApplet;
 import processing.core.PFont;

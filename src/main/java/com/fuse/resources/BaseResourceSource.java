@@ -1,15 +1,13 @@
 package com.fuse.resources;
 
+import java.lang.ref.WeakReference;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 import java.util.function.Function;
 import java.util.logging.Logger;
-import java.lang.ref.WeakReference;
-import java.util.concurrent.ConcurrentMap;
-import java.util.concurrent.ConcurrentHashMap;
 
 import com.fuse.cms.AsyncFacade;
 import com.fuse.cms.AsyncOperation;
-
-import processing.core.PImage;
 
 public class BaseResourceSource<K,V> {
   protected Logger logger;
@@ -135,7 +133,8 @@ public class BaseResourceSource<K,V> {
     Object[] keyArray = this.cache.keySet().toArray();
 
     for(int i=keyArray.length-1; i>=0; i--) {
-    	K curKey = (K)keyArray[i];
+    	@SuppressWarnings("unchecked")
+      K curKey = (K)keyArray[i];
         if(this.getCache(curKey) == value) {
         	key = curKey;
         	break;

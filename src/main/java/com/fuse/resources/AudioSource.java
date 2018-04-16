@@ -2,11 +2,12 @@ package com.fuse.resources;
 
 import java.util.function.Function;
 
-import processing.core.PApplet;
-import ddf.minim.Minim;
-import ddf.minim.AudioPlayer;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Mixer;
+
+import ddf.minim.AudioPlayer;
+import ddf.minim.Minim;
+import processing.core.PApplet;
 
 /**
   * Audio loading interface which takes care
@@ -56,6 +57,7 @@ public class AudioSource extends BaseResourceSource<String, AudioPlayer> {
    * @param papplet the PApplet instance to use
    * @param soundCardName a string that specifies which soundcard to use (set to empty string for default)
    */
+  @SuppressWarnings("deprecation")
   public void setPapplet(PApplet papplet, String soundCardName){
     // this.papplet = papplet;
     Minim minim = new Minim(papplet);
@@ -96,11 +98,11 @@ public class AudioSource extends BaseResourceSource<String, AudioPlayer> {
     String filePath = url;
 
     // url query processing
-    String query = null;
+    // String query = null;
     if(url.contains("?")){
       String[] parts = filePath.split("\\?");
       filePath = parts[0];
-      query = parts[1];
+      // query = parts[1];
     }
 
     // no url parameters currently supported...
