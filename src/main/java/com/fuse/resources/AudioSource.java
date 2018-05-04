@@ -106,7 +106,7 @@ public class AudioSource extends BaseResourceSource<String, AudioPlayer> {
     // no url parameters currently supported...
 
     // let do this
-    logger.fine("Loading audio file: "+url);
+    logger.info("Loading audio file: "+url);
     AudioPlayer audioPlayer = this.fileLoader.apply(filePath);
 
     if(audioPlayer == null){
