@@ -126,7 +126,7 @@ public class ImageSource extends BaseResourceSource<String, PImage> {
       return null;
     }
 
-    logger.info("Loading image file path: "+filePath);
+    logger.fine("Loading image file path: "+filePath);
 
     PImage newImg;
     try{
@@ -149,7 +149,7 @@ public class ImageSource extends BaseResourceSource<String, PImage> {
     }
 
     if(resizeWidth != null && resizeHeight != null){
-      logger.info("resizing image to: "+Integer.toString(resizeWidth)+"x"+Integer.toString(resizeHeight));
+      logger.fine("resizing image to: "+Integer.toString(resizeWidth)+"x"+Integer.toString(resizeHeight));
       newImg.resize(resizeWidth, resizeHeight);
     }
 
@@ -160,7 +160,7 @@ public class ImageSource extends BaseResourceSource<String, PImage> {
     // if cache is enabled, caching will be taken care of by theparent class (BaseResourceSource)
     // otherwise, if caching is explicitly request for this image, we'll set cache here
     if(doCache != null && doCache == true && !this.isCacheEnabled()) {
-      System.out.println("explicit-cache: "+urlString);
+      // System.out.println("explicit-cache: "+urlString);
       this.setCache(urlString,  newImg);
     }
 
