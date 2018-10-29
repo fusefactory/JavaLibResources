@@ -2,7 +2,7 @@ package com.fuse.resources;
 
 // import java.util.regex.Pattern;
 // import java.util.regex.Matcher;
-import com.fuse.resources.vlc.VLCPlayer;
+import com.fuse.vlcplayer.VLCPlayer;
 
 public class VlcPlayerSource extends BaseResourceSource<String, VLCPlayer> {
   private String audioOutput = null;
@@ -55,7 +55,7 @@ public class VlcPlayerSource extends BaseResourceSource<String, VLCPlayer> {
     // let do this
     logger.fine("Loading movie: "+url);
     VLCPlayer player;
-    
+
     try{
       // newMovie = new Movie(this.papplet, filePath);
       player = new VLCPlayer(filePath);
