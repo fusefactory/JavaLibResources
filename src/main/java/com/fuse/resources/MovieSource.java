@@ -1,8 +1,7 @@
 package com.fuse.resources;
 
-import java.util.regex.Pattern;
-import java.util.regex.Matcher;
-
+// import java.util.regex.Pattern;
+// import java.util.regex.Matcher;
 import processing.core.PApplet;
 import processing.video.Movie;
 
@@ -73,11 +72,11 @@ public class MovieSource extends BaseResourceSource<String, Movie> {
     String filePath = url;
 
     // url query processing
-    String query = null;
+    // String query = null;
     if(url.contains("?")){
       String[] parts = filePath.split("\\?");
       filePath = parts[0];
-      query = parts[1];
+      // query = parts[1];
     }
 
     // no url parameters currently supported...

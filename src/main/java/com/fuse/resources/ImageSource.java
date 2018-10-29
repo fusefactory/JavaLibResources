@@ -1,12 +1,10 @@
 package com.fuse.resources;
 
 import java.io.File;
-import processing.opengl.Texture;
 import processing.core.PApplet;
 import processing.core.PImage;
 import processing.video.Movie;
 import com.fuse.cms.AsyncFacade;
-
 
 /**
   * The applications main images/textures interface which takes care
@@ -217,8 +215,9 @@ public class ImageSource extends BaseResourceSource<String, PImage> {
 
     if(this.papplet != null) {
       Object cache = this.papplet.getGraphics().getCache(img);
-      if(cache  instanceof Texture) {
-        Texture tex = (Texture)cache;
+
+      if(cache instanceof processing.opengl.Texture) {
+        processing.opengl.Texture tex = (processing.opengl.Texture)cache;
         tex.unbind();
         tex.disposeSourceBuffer();
       }

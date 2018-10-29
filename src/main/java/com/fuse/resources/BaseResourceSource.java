@@ -9,8 +9,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import com.fuse.cms.AsyncFacade;
 import com.fuse.cms.AsyncOperation;
 
-import processing.core.PImage;
-
 public class BaseResourceSource<K,V> {
   protected Logger logger;
   protected AsyncFacade<K,V> asyncFacade;
@@ -135,7 +133,8 @@ public class BaseResourceSource<K,V> {
     Object[] keyArray = this.cache.keySet().toArray();
 
     for(int i=keyArray.length-1; i>=0; i--) {
-    	K curKey = (K)keyArray[i];
+    	@SuppressWarnings("unchecked")
+      K curKey = (K)keyArray[i];
         if(this.getCache(curKey) == value) {
         	key = curKey;
         	break;

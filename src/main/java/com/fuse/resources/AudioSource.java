@@ -96,11 +96,11 @@ public class AudioSource extends BaseResourceSource<String, AudioPlayer> {
     String filePath = url;
 
     // url query processing
-    String query = null;
+    // String query = null;
     if(url.contains("?")){
       String[] parts = filePath.split("\\?");
       filePath = parts[0];
-      query = parts[1];
+      // query = parts[1];
     }
 
     // no url parameters currently supported...
