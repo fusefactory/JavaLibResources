@@ -3,8 +3,6 @@ package com.fuse.resources;
 import java.io.File;
 import processing.core.PApplet;
 import processing.core.PImage;
-import processing.video.Movie;
-import com.fuse.cms.AsyncFacade;
 
 /**
   * The applications main images/textures interface which takes care
@@ -28,7 +26,6 @@ public class ImageSource extends BaseResourceSource<String, PImage> {
   //   });
 
   protected PApplet papplet;
-  private AsyncFacade<Movie, PImage> movieFacade;
 
   public ImageSource(){
 	  this(null);
@@ -43,11 +40,6 @@ public class ImageSource extends BaseResourceSource<String, PImage> {
     // this loader is used both for sync and async requests
     setLoader((String urlString) -> {
     	return this._createImage(urlString);
-    });
-
-    this.movieFacade = new AsyncFacade<>();
-    this.movieFacade.setSyncLoader((Movie movie) -> {
-      return this._createImage(movie);
     });
   }
 
@@ -172,7 +164,7 @@ public class ImageSource extends BaseResourceSource<String, PImage> {
     return newImg;
   }
 
-  private PImage _createImage(Movie movie){
+  /*private PImage _createImage(Movie movie){
     if(movie == null){
       logger.warning("movie is null");
       return null;
@@ -202,7 +194,7 @@ public class ImageSource extends BaseResourceSource<String, PImage> {
     PImage img = papplet.createImage(movie.width, movie.height, PApplet.ARGB);
     img.copy(movie, 0, 0, movie.width, movie.height, 0, 0, movie.width, movie.height);
   	return img;
-  }
+  }*/
 
   @Deprecated // use remove
   public void destroy(PImage img) {

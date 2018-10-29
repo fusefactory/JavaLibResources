@@ -119,7 +119,7 @@ public class BaseResourceSource<K,V> {
     if(item != null)
       this.clearItem(item);
 
-    this.logger.info("cache-cleared: "+key);
+    // this.logger.info("cache-cleared: "+key);
     return true;
   }
 
