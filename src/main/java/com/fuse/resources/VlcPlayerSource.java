@@ -27,8 +27,19 @@ public class VlcPlayerSource extends BaseResourceSource<String, VLCPlayer> {
   }
 
   public void setAudioOutput(String output, String device) {
-    this.audioOutput = output;
-    this.audioDevice = device;
+    this.audioOutput = output == null || output.equals("") ? null : output;
+    this.audioDevice = device == null || device.equals("") ? null : device;
+  }
+
+  @Override
+  public void remove(VLCPlayer player) {
+    if (player != null)
+    {
+      player.close();
+      player = null;
+    }
+
+    super.remove(player);
   }
 
   /** The main loader routine */
