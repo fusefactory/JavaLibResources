@@ -1,5 +1,7 @@
 package com.fuse.resources;
 
+import java.io.File;
+
 // import java.util.regex.Pattern;
 // import java.util.regex.Matcher;
 import com.fuse.vlcplayer.VLCPlayer;
@@ -61,7 +63,12 @@ public class VlcPlayerSource extends BaseResourceSource<String, VLCPlayer> {
       // query = parts[1];
     }
 
+
     // no url parameters currently supported...
+    if (!new File(filePath).exists()) {
+      logger.info("Could not load video because file doesn't exist: "+filePath);
+      return null;
+    }
 
     // let do this
     logger.fine("Loading movie: "+url);
