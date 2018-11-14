@@ -28,6 +28,14 @@ public class VlcPlayerSource extends BaseResourceSource<String, VLCPlayer> {
     this.setAudioOutput(audioOutput, audioDevice);
   }
 
+  public String getAudioOutput() {
+	  return this.audioOutput;
+  }
+  
+  public String getAudioDevice() {
+	  return this.audioDevice;
+  }
+
   public void setAudioOutput(String output, String device) {
     this.audioOutput = output == null || output.equals("") ? null : output;
     this.audioDevice = device == null || device.equals("") ? null : device;
