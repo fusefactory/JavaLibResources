@@ -16,6 +16,9 @@ public class App extends PApplet {
 
   private AudioSource audioSource;
 
+  private AudioPlayer p1 = null;
+  private AudioPlayer p2 = null;
+
   public static void main( String[] args )
   {
     PApplet.main("com.fuse.resources.example.App");
@@ -68,22 +71,51 @@ public class App extends PApplet {
           this.logger.info("load1-done");
           player.play();
           this.logger.info("load1 started");
-          player.close();
-          this.logger.info("load1 closed");
+          // player.close();
+          // this.logger.info("load1 closed");
+
+          if (this.p1 != null) {
+            // this.p1.stop();
+            this.p1.close();
+          }
+
+          this.p1 = player;
         });
         return;
       }
 
       case '2': {
+        if (this.p1 != null) {
+          this.p1.close();
+          this.p1 = null;
+        }
+        return;
+      }
+
+      case '3': {
         // load
         this.logger.info("load2");
         this.audioSource.getAsync(dataPath("test.mp3")).withSingleResult((AudioPlayer player) -> {
           this.logger.info("load2-done");
           player.play();
           this.logger.info("load2 started");
-          player.close();
-          this.logger.info("load2 closed");
+
+          if (this.p2 != null) {
+            // this.p2.stop();
+            this.p2.close();
+          }
+
+          this.p2 = player;
         });
+        return;
+      }
+
+      case '4': {
+        if (this.p2 != null) {
+          this.p2.close();
+          this.p2 = null;
+        }
+
         return;
       }
 
