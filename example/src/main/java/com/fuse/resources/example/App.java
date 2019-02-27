@@ -47,8 +47,13 @@ public class App extends PApplet {
   }
 
   public void draw(){
+    background(0);
     // OF-style; first update app state before rendering
     update(timeBetweenFrames);
+
+    text("press 1 to load audio player 1\npress 2 to stop audio player 1\npress 3 to load audio player 2\npress 4 to stop audio player 2", 30, 20);
+    if (this.p1 != null) rect(10,20,10,10);
+    if (this.p2 != null) rect(10,50,10,10);
 
   }
 
