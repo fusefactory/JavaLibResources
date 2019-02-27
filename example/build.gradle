@@ -2,7 +2,7 @@ apply plugin: 'java'
 apply plugin: 'maven'
 apply plugin: 'application'
 
-mainClassName = 'com.fuse.ui.example.App'
+mainClassName = 'com.fuse.resources.example.App'
 group = 'com.fuse.resources.example'
 version = '0.0.1'
 description = """com.fuse.resources Example App"""
