@@ -36,7 +36,6 @@ dependencies {
     compile group: 'com.github.fusefactory', name: 'JavaLibEvent', version:'1.1.9'
     compile group: 'com.github.fusefactory', name: 'JavaLibCms', version:'1.1.6'
     compile group: 'org.processing', name: 'core', version:'3.2.3'
-
     compile group: 'org.processing', name: 'video', version:'3.2.3'
     compile group: 'net.compartmental.code', name: 'minim', version:'2.2.2'
     // https://mvnrepository.com/artifact/uk.co.caprica/vlcj

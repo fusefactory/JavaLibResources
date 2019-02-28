@@ -124,6 +124,38 @@ public class App extends PApplet {
         return;
       }
 
+      case '5': {
+        this.logger.info("load3 - reproduce audio loading thread bug sequence");
+        this.logger.info("isCacheEnabled: "+Boolean.toString(this.audioSource.isCacheEnabled()));
+
+        this.logger.info("start async 1");
+        this.audioSource.getAsync(dataPath("test.mp3")).withSingleResult((AudioPlayer player) -> {
+          this.logger.info("async 1-done");
+          // this.p1 = player;
+          player.play();
+          this.logger.info("async 1-close");
+          // this.p1.close();
+          // this.p1 = null;
+          player.close();
+        });
+
+        this.logger.info("start async 2");
+        this.audioSource.getAsync(dataPath("test.mp3")).withSingleResult((AudioPlayer player2) -> {
+          this.logger.info("async 2-done");
+          //this.p2 = player2;
+          this.logger.info("async 2 play");
+          // if (this.p1 != null) {
+          //   this.logger.info("async 2 close p1 first");
+          //   this.p1.close();
+          // }
+          //this.p2.play();
+          player2.play();
+        });
+
+        return;
+
+      }
+
       case 'd': {
         bDrawDebug = !bDrawDebug;
         return;
